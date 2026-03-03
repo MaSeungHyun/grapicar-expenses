@@ -1,36 +1,22 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+경비 문서 작성 시, 다양한 툴을 통하여 작성 후 캡쳐 및 복사/붙여넣기를 통하여 작성하는 것이 번거로워 개발하게 되었습니다.
 
-First, run the development server:
+다음 기능을 지원합니다.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+✅ 표 만들기
+✅ 영수증 첨부를 위한 템플릿
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+표는 M사의 Excel, G사의 Sheet 등 복사/붙여넣기 시 각기 다른 크기의 셀이 복사되므로 준비하였습니다.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🐛 Issue
+버그 및 수정사항 발생 시 아래 페이지
 
-## Learn More
+[Grapicar Expenses](https://github.com/MaSeungHyun/grapicar-expenses/issues)를 통하여 등록해주시면 신속히 수정하도록 하겠습니다.
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
