@@ -3,24 +3,11 @@
 import { Button } from "@/components/ui/button";
 import userStore from "@/store/user";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-function getUserFromCookie(): string | null {
-  if (typeof document === "undefined") return null;
-  const match = document.cookie.match(/\buser=([^;]*)/);
-  return match ? decodeURIComponent(match[1].trim()) : null;
-}
 
 export default function Header() {
   const router = useRouter();
-  const { name, resetName, setName } = userStore();
-
-  useEffect(() => {
-    const cookieUser = getUserFromCookie();
-    if (cookieUser && !name) {
-      setName(cookieUser);
-    }
-  }, [name, setName]);
+  const name = userStore((state) => state.name);
+  const resetName = userStore((state) => state.resetName);
 
   const handleLogout = () => {
     resetName();

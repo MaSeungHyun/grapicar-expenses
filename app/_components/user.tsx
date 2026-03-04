@@ -26,8 +26,8 @@ export default function User() {
   };
 
   const saveUserCookie = () => {
-    if (save) {
-      document.cookie = `user=${name}; path=/; max-age=${name ? 60 * 60 * 24 * 30 : 0}`;
+    if (save && name) {
+      document.cookie = `user=${encodeURIComponent(name)}; path=/; max-age=${60 * 60 * 24 * 30}`;
     }
   };
 
