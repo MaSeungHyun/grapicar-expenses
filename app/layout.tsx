@@ -17,6 +17,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Grapicar Expenses",
   description: "Grapicar Expenses",
+  manifest: "/manifest.json",
+  appleWebApp: { capable: true, statusBarStyle: "default", title: "경비" },
+};
+
+export const viewport = {
+  themeColor: "#111111",
 };
 
 export default function RootLayout({

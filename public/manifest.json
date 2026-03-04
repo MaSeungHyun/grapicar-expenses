@@ -1,0 +1,10 @@
+{
+  "name": "Grapicar Expenses",
+  "short_name": "경비",
+  "description": "Grapicar 경비 문서 작성",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2f2ef",
+  "theme_color": "#111111",
+  "orientation": "portrait-primary"
+}
