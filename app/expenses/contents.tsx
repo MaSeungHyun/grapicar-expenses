@@ -26,7 +26,7 @@ export default function Contents() {
       <ContentItem title="제목" value={titleValue} />
       <ExpenseTable />
       <Button
-        className="w-full absolute bottom-3 left-0 h-12"
+        className="w-full bottom-3 left-0 h-12"
         onClick={handleCreateReceipt}
       >
         영수증 PDF 만들기

@@ -31,6 +31,7 @@ import expenseStore, {
   type ExpenseTableRow,
   INITIAL_TABLE_ROW,
 } from "@/store/expense";
+import grapicarLogo from "@/public/guide.png";
 
 type Row = ExpenseTableRow;
 
@@ -165,6 +166,7 @@ export default function ExpenseTable() {
 
   const [copied, setCopied] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [guideOpen, setGuideOpen] = useState(false);
 
   const updateRow = (ri: number, field: keyof Row, value: string) => {
     setTableRows((prev) =>
@@ -488,6 +490,32 @@ export default function ExpenseTable() {
             <Minus size={16} /> 행 삭제
           </Button>
         </div>
+
+        <Collapsible open={guideOpen} onOpenChange={setGuideOpen}>
+          <div className="rounded-xl bg-white px-5 py-4 border border-neutral-200">
+            <CollapsibleTrigger asChild>
+              <button
+                type="button"
+                className="mb-2.5 flex w-full items-center gap-2 text-left text-[10px] font-bold uppercase tracking-wider text-neutral-500 hover:text-neutral-400"
+              >
+                {guideOpen ? (
+                  <ChevronDownIcon className="size-3.5 shrink-0" />
+                ) : (
+                  <ChevronRightIcon className="size-3.5 shrink-0" />
+                )}
+                GUIDE
+              </button>
+            </CollapsibleTrigger>
+            <CollapsibleContent>
+              <div className="w-full flex justify-center items-center px-2 gap-2 flex-col pb-12">
+                <img src={grapicarLogo.src} alt="grapicar" className="" />
+                <p className="text-sm text-green-500">
+                  복사한 HTML 코드를 위 영역을 클릭하여 덮어씌우세요.
+                </p>
+              </div>
+            </CollapsibleContent>
+          </div>
+        </Collapsible>
 
         {/* HTML 미리보기 */}
         <Collapsible open={previewOpen} onOpenChange={setPreviewOpen}>
