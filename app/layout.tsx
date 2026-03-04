@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import StoreInitializer from "@/app/expenses/store-initializer";
+import PwaInstall from "@/app/_components/pwa-install";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ko">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -40,6 +41,7 @@ export default function RootLayout({
         <div className="flex min-h-screen items-center justify-center font-sans">
           {children}
         </div>
+        <PwaInstall />
       </body>
     </html>
   );
