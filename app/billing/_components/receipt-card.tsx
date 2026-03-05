@@ -7,12 +7,14 @@ type Props = {
   item: ReceiptItem;
   onPlaceholderClick?: (itemId: number) => void;
   onRemoveImage?: (itemId: number) => void;
+  onDropImage?: (itemId: number, file: File) => void;
 };
 
 export default function ReceiptCard({
   item,
   onPlaceholderClick,
   onRemoveImage,
+  onDropImage,
 }: Props) {
   return (
     <div className="flex h-full min-h-[320px] flex-col max-h-[320px]">
@@ -33,6 +35,22 @@ export default function ReceiptCard({
             ? (e) => e.key === "Enter" && onPlaceholderClick(item.id)
             : undefined
         }
+        onDragOver={(e) => {
+          if (!onDropImage) return;
+          e.preventDefault();
+          e.dataTransfer.dropEffect = "copy";
+        }}
+        onDrop={(e) => {
+          if (!onDropImage) return;
+          e.preventDefault();
+          const files = Array.from(e.dataTransfer.files);
+          const file = files.find((f) =>
+            ["image/png", "image/jpeg", "image/jpg"].includes(f.type),
+          );
+          if (file) {
+            onDropImage(item.id, file);
+          }
+        }}
       >
         {item.image ? (
           <div className="group relative flex w-full flex-1 items-center justify-center h-full">

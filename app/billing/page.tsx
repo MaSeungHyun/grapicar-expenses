@@ -12,6 +12,7 @@ import {
 } from "./_lib/types";
 import EditorPanel from "./_components/editor-panel";
 import PrintPreview from "./_components/print-preview";
+import { cn } from "@/lib/utils";
 
 const MAX_ITEMS_PER_ROW = 3;
 
@@ -121,6 +122,12 @@ export default function ReceiptPDF() {
     if (input) input.value = "";
   };
 
+  const handleDropImage = (itemId: number, file: File) => {
+    const row = rows.find((r) => r.items.some((it) => it.id === itemId));
+    if (!row) return;
+    handleImage(row.id, itemId, file);
+  };
+
   return (
     <div className="min-h-screen w-full min-w-0 bg-[#f2f2ef] font-sans box-border">
       <style>{PRINT_STYLE}</style>
@@ -139,13 +146,19 @@ export default function ReceiptPDF() {
         onImage={handleImage}
         onPrint={() => window.print()}
       />
-      <main className="min-h-screen pl-[300px]">
+      <main
+        className={cn(
+          "min-h-screen transition-all duration-200",
+          panelOpen ? "pl-[300px]" : "pl-0",
+        )}
+      >
         <div className="mx-auto flex w-full max-w-4xl gap-6 p-8">
           <PrintPreview
             title={title}
             rows={rows}
             onPlaceholderClick={(itemId) => fileRefs.current[itemId]?.click()}
             onRemoveImage={removeImage}
+            onDropImage={handleDropImage}
           />
         </div>
       </main>

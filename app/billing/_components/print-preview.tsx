@@ -8,6 +8,7 @@ type Props = {
   rows: ReceiptRow[];
   onPlaceholderClick?: (itemId: number) => void;
   onRemoveImage?: (itemId: number) => void;
+  onDropImage?: (itemId: number, file: File) => void;
 };
 
 export default function PrintPreview({
@@ -15,6 +16,7 @@ export default function PrintPreview({
   rows,
   onPlaceholderClick,
   onRemoveImage,
+  onDropImage,
 }: Props) {
   return (
     <div
@@ -39,6 +41,7 @@ export default function PrintPreview({
                 item={item}
                 onPlaceholderClick={onPlaceholderClick}
                 onRemoveImage={onRemoveImage}
+                onDropImage={onDropImage}
               />
             ))}
           </div>
