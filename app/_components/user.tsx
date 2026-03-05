@@ -46,7 +46,7 @@ export default function User() {
   };
 
   return (
-    <div className="w-full flex flex-col flex-1 justify-center gap-2">
+    <div className="w-full flex flex-col flex-1 justify-center gap-2 px-16 lg:px-0">
       <h1>사원명을 입력해주세요</h1>
       <Input
         className="w-full placeholder:text-red-500"
