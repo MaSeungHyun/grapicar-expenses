@@ -1,45 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import type { ReceiptItem } from "../_lib/types";
 
 type Props = {
   item: ReceiptItem;
+  isHovered?: boolean;
+  onHoverChange?: (hovered: boolean) => void;
   onPlaceholderClick?: (itemId: number) => void;
   onRemoveImage?: (itemId: number) => void;
   onDropImage?: (itemId: number, file: File) => void;
 };
 
-function getImageFileFromClipboard(clipboardData: DataTransfer | null) {
-  if (!clipboardData) return null;
-  const items = Array.from(clipboardData.items);
-  const imageItem = items.find((item) => item.type.startsWith("image/"));
-  return imageItem?.getAsFile() ?? null;
-}
-
 export default function ReceiptCard({
   item,
+  isHovered = false,
+  onHoverChange,
   onPlaceholderClick,
   onRemoveImage,
   onDropImage,
 }: Props) {
-  const [isActive, setIsActive] = useState(false);
   const canAttach = Boolean(onDropImage);
-
-  useEffect(() => {
-    if (!isActive || !onDropImage) return;
-
-    const handlePaste = (e: ClipboardEvent) => {
-      const file = getImageFileFromClipboard(e.clipboardData);
-      if (!file) return;
-      e.preventDefault();
-      onDropImage(item.id, file);
-    };
-
-    window.addEventListener("paste", handlePaste);
-    return () => window.removeEventListener("paste", handlePaste);
-  }, [isActive, onDropImage, item.id]);
 
   return (
     <div className="flex h-full min-h-0 flex-col">
@@ -47,13 +28,9 @@ export default function ReceiptCard({
         {item.label}
       </div>
       <div
-        className={`flex min-h-0 flex-1 items-center justify-center overflow-hidden border border-neutral-800 bg-neutral-50 outline-none ${canAttach ? "cursor-pointer hover:bg-neutral-100 focus:bg-neutral-100" : ""} ${isActive && canAttach ? "ring-2 ring-blue-400 ring-inset" : ""}`}
-        role={canAttach ? "button" : undefined}
-        tabIndex={canAttach ? 0 : undefined}
-        onMouseEnter={() => setIsActive(true)}
-        onMouseLeave={() => setIsActive(false)}
-        onFocus={() => setIsActive(true)}
-        onBlur={() => setIsActive(false)}
+        className={`flex min-h-0 flex-1 items-center justify-center overflow-hidden border border-neutral-800 bg-neutral-50 outline-none ${canAttach ? "cursor-pointer hover:bg-neutral-100" : ""} ${isHovered && canAttach ? "ring-2 ring-blue-400 ring-inset bg-neutral-100" : ""}`}
+        onMouseEnter={() => onHoverChange?.(true)}
+        onMouseLeave={() => onHoverChange?.(false)}
         onClick={
           onPlaceholderClick && !item.image
             ? () => onPlaceholderClick(item.id)
@@ -64,13 +41,6 @@ export default function ReceiptCard({
             ? (e) => e.key === "Enter" && onPlaceholderClick(item.id)
             : undefined
         }
-        onPaste={(e) => {
-          if (!onDropImage) return;
-          const file = getImageFileFromClipboard(e.clipboardData);
-          if (!file) return;
-          e.preventDefault();
-          onDropImage(item.id, file);
-        }}
         onDragOver={(e) => {
           if (!onDropImage) return;
           e.preventDefault();
@@ -113,15 +83,15 @@ export default function ReceiptCard({
             )}
           </div>
         ) : (
-          <span className="text-center text-lg mb-5 font-medium text-neutral-800">
+          <span className="mb-5 text-center text-lg font-medium text-neutral-800">
             영수증 첨부
             <br />
-            <span className="text-sm text-blue-500 text-bold">
+            <span className="text-sm font-bold text-blue-500">
               클릭 : 파일 선택
             </span>
             <br />
-            <span className="text-sm text-blue-500 text-bold">
-              Ctlr + V (마우스 올린 상태로) : 복사한 이미지 붙여넣기
+            <span className="text-sm font-bold text-blue-500">
+              Ctrl + V (마우스 올린 상태) : 붙여넣기
             </span>
           </span>
         )}

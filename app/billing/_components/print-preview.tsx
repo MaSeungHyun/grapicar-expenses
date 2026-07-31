@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import type { ReceiptRow } from "../_lib/types";
 import ReceiptCard from "./receipt-card";
 
@@ -11,6 +12,13 @@ type Props = {
   onDropImage?: (itemId: number, file: File) => void;
 };
 
+function getImageFileFromClipboard(clipboardData: DataTransfer | null) {
+  if (!clipboardData) return null;
+  const items = Array.from(clipboardData.items);
+  const imageItem = items.find((item) => item.type.startsWith("image/"));
+  return imageItem?.getAsFile() ?? null;
+}
+
 export default function PrintPreview({
   title,
   rows,
@@ -18,6 +26,23 @@ export default function PrintPreview({
   onRemoveImage,
   onDropImage,
 }: Props) {
+  const [hoveredItemId, setHoveredItemId] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!onDropImage) return;
+
+    const handlePaste = (e: ClipboardEvent) => {
+      if (hoveredItemId == null) return;
+      const file = getImageFileFromClipboard(e.clipboardData);
+      if (!file) return;
+      e.preventDefault();
+      onDropImage(hoveredItemId, file);
+    };
+
+    window.addEventListener("paste", handlePaste);
+    return () => window.removeEventListener("paste", handlePaste);
+  }, [hoveredItemId, onDropImage]);
+
   return (
     <div id="print-area" className="flex w-full min-w-[700px] flex-col gap-6">
       {rows.map((row) => (
@@ -38,6 +63,14 @@ export default function PrintPreview({
               <ReceiptCard
                 key={item.id}
                 item={item}
+                isHovered={hoveredItemId === item.id}
+                onHoverChange={(hovered) => {
+                  if (hovered) setHoveredItemId(item.id);
+                  else
+                    setHoveredItemId((prev) =>
+                      prev === item.id ? null : prev,
+                    );
+                }}
                 onPlaceholderClick={onPlaceholderClick}
                 onRemoveImage={onRemoveImage}
                 onDropImage={onDropImage}
