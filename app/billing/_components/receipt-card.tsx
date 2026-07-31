@@ -83,21 +83,26 @@ export default function ReceiptCard({
             )}
           </div>
         ) : (
-          <span className="mb-5 text-center text-lg font-medium text-neutral-800">
-            영수증 첨부
-            <br />
-            <span className="text-sm font-bold text-blue-500">
-              클릭 : 파일 선택
-            </span>
-            <br />
-            <span className="text-sm font-bold text-blue-500">
-              Ctrl + V (마우스 올린 상태) : 붙여넣기
-            </span>
-            <br />
-            <span className="text-sm font-bold text-blue-500">
-              파일 드래그 앤 드롭
-            </span>
-          </span>
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center">
+              <span className="text-center text-lg font-medium text-neutral-800">
+                영수증 첨부
+              </span>
+            </div>
+            <div className="mt-10 flex flex-col  text-left">
+              <span className="text-sm font-bold text-blue-500">
+                방법 ☝🏻 - 클릭 : 파일 선택
+              </span>
+              <br />
+              <span className="text-sm font-bold text-blue-500">
+                방법 ✌🏻 - Ctrl + V (마우스 올린 상태) : 붙여넣기
+              </span>
+              <br />
+              <span className="text-sm font-bold text-blue-500">
+                방법 👌🏻 - 파일 드래그 앤 드롭
+              </span>
+            </div>
+          </div>
         )}
       </div>
     </div>
