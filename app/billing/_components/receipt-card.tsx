@@ -93,6 +93,10 @@ export default function ReceiptCard({
             <span className="text-sm font-bold text-blue-500">
               Ctrl + V (마우스 올린 상태) : 붙여넣기
             </span>
+            <br />
+            <span className="text-sm font-bold text-blue-500">
+              파일 드래그 앤 드롭
+            </span>
           </span>
         )}
       </div>
