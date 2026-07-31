@@ -54,13 +54,16 @@ export default function EditorPanel({
 
   const name = userStore((state) => state.name);
   const today = new Date();
-  const yyyymmdd = [
-    today.getFullYear(),
-    String(today.getMonth() + 1).padStart(2, "0"),
-    String(today.getDate()).padStart(2, "0"),
-  ].join("");
-  const PdfFileName = `개인경비영수증_${name}_${yyyymmdd}`;
 
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+
+  const yyyymmdd = `${year}${month}${day}`;
+
+  const MailSubject = `[경비] ${name}-${year}-${month}-${day}`;
+
+  const PdfFileName = `개인경비영수증_${name}_${yyyymmdd}`;
   return (
     <aside
       className={cn(
@@ -90,9 +93,9 @@ export default function EditorPanel({
 
           <div className="flex flex-col gap-2">
             <label className="text-xs font-bold tracking-wide text-neutral-500">
-              문서 제목
+              PDF 상단 문구
             </label>
-            <input
+            <InputWithClipboard
               value={title}
               onChange={(e) => onTitleChange(e.target.value)}
               className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-800 outline-none box-border"
@@ -129,7 +132,17 @@ export default function EditorPanel({
             </button>
           </div>
 
-          <div className="relative mt-10">
+          <div className="flex flex-col gap-2 mt-10">
+            <label className="text-md font-bold tracking-wide text-neutral-500">
+              기안서 제목
+            </label>
+            <InputWithClipboard value={MailSubject} />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <label className="text-md font-bold tracking-wide text-neutral-500">
+              PDF 파일명
+            </label>
             <InputWithClipboard value={PdfFileName} />
           </div>
 

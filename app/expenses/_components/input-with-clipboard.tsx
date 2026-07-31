@@ -1,12 +1,13 @@
 import { Input } from "@/components/ui/input";
 import { Copy } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { ComponentProps, useEffect, useState } from "react";
 import { toast } from "sonner";
 
-type InputWithClipboardProps = {
-  value: string;
-};
-export default function InputWithClipboard({ value }: InputWithClipboardProps) {
+type InputWithClipboardProps = ComponentProps<"input">;
+
+export default function InputWithClipboard(props: InputWithClipboardProps) {
+  const { value, ...rest } = props;
+
   const [inputValue, setInputValue] = useState(value);
 
   const handleChangeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,7 +16,7 @@ export default function InputWithClipboard({ value }: InputWithClipboardProps) {
 
   const handleCopyValue = () => {
     navigator.clipboard
-      .writeText(inputValue)
+      .writeText(String(inputValue))
       .then(() => {
         console.log("복사되었습니다.");
         toast.success("복사되었습니다.");
