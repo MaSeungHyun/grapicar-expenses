@@ -19,15 +19,34 @@ export const newRow = (): ReceiptRow => ({
 
 export const PRINT_STYLE = `
   @media print {
+    @page {
+      size: A4;
+      margin: 12mm;
+    }
     body * { visibility: hidden; }
     #print-area, #print-area * { visibility: visible; }
     #print-area {
-      position: fixed;
-      top: 0; left: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
-      padding: 24px 32px;
-      box-sizing: border-box;
+      gap: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
     }
-    .print-preview-rows { gap: 24px !important; }
+    .print-page {
+      break-after: page;
+      page-break-after: always;
+      min-height: auto !important;
+      height: 100vh;
+      margin: 0 !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
+    .print-page:last-child {
+      break-after: auto;
+      page-break-after: auto;
+    }
   }
 `;

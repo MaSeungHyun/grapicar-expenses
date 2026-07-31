@@ -1,12 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ChevronLeft, ChevronRight, PanelLeftClose } from "lucide-react";
+import { ChevronLeft, ChevronRight, Copy, PanelLeftClose } from "lucide-react";
 import type { ReceiptRow } from "../_lib/types";
 import RowBlock from "./row-block";
 import userStore from "@/store/user";
 import { cn } from "@/lib/utils";
-
+import { Input } from "@/components/ui/input";
+import InputWithClipboard from "@/app/expenses/_components/input-with-clipboard";
 
 type Props = {
   isOpen: boolean;
@@ -50,6 +51,16 @@ export default function EditorPanel({
     document.cookie = "user=; path=/; max-age=0";
     router.push("/");
   };
+
+  const name = userStore((state) => state.name);
+  const today = new Date();
+  const yyyymmdd = [
+    today.getFullYear(),
+    String(today.getMonth() + 1).padStart(2, "0"),
+    String(today.getDate()).padStart(2, "0"),
+  ].join("");
+  const PdfFileName = `개인경비영수증_${name}_${yyyymmdd}`;
+
   return (
     <aside
       className={cn(
@@ -77,61 +88,65 @@ export default function EditorPanel({
             영수증 PDF 생성기
           </h2>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-xs font-bold tracking-wide text-neutral-500">
-          문서 제목
-        </label>
-        <input
-          value={title}
-          onChange={(e) => onTitleChange(e.target.value)}
-          className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-800 outline-none box-border"
-          placeholder="제목을 입력하세요"
-        />
-      </div>
-
-      <div className="flex flex-col gap-2">
-        <label className="text-xs font-bold tracking-wide text-neutral-500">
-          행 / 항목
-        </label>
-        <div className="flex flex-col gap-3">
-          {rows.map((row, ri) => (
-            <RowBlock
-              key={row.id}
-              row={row}
-              rowIndex={ri}
-              totalRows={rows.length}
-              fileRefs={fileRefs}
-              onAddItem={onAddItem}
-              onRemoveRow={onRemoveRow}
-              onUpdateItem={onUpdateItem}
-              onRemoveItem={onRemoveItem}
-              onImage={onImage}
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold tracking-wide text-neutral-500">
+              문서 제목
+            </label>
+            <input
+              value={title}
+              onChange={(e) => onTitleChange(e.target.value)}
+              className="w-full rounded-lg border border-neutral-200 px-3 py-2 text-sm text-neutral-800 outline-none box-border"
+              placeholder="제목을 입력하세요"
             />
-          ))}
-        </div>
-        <button
-          type="button"
-          onClick={onAddRow}
-          className="cursor-pointer rounded-lg border border-neutral-200 bg-[#f4f4f0] px-3 py-2 text-sm font-semibold text-neutral-700"
-        >
-          + 행 추가 (줄바꿈)
-        </button>
-      </div>
+          </div>
 
-      <button
-        type="button"
-        onClick={onPrint}
-        className="w-full cursor-pointer rounded-lg border-0 bg-blue-500 py-3 text-sm font-bold text-white"
-      >
-        🖨 PDF로 저장 / 인쇄
-      </button>
-      <button
-        type="button"
-        onClick={handleLogout}
-        className="mt-auto w-full cursor-pointer rounded-lg border-0 bg-neutral-900 py-3 text-sm font-bold text-white"
-      >
-        로그아웃
-      </button>
+          <div className="flex flex-col gap-2">
+            <label className="text-xs font-bold tracking-wide text-neutral-500">
+              행 / 항목
+            </label>
+            <div className="flex flex-col gap-3">
+              {rows.map((row, ri) => (
+                <RowBlock
+                  key={row.id}
+                  row={row}
+                  rowIndex={ri}
+                  totalRows={rows.length}
+                  fileRefs={fileRefs}
+                  onAddItem={onAddItem}
+                  onRemoveRow={onRemoveRow}
+                  onUpdateItem={onUpdateItem}
+                  onRemoveItem={onRemoveItem}
+                  onImage={onImage}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              onClick={onAddRow}
+              className="cursor-pointer rounded-lg border border-neutral-200 bg-[#f4f4f0] px-3 py-2 text-sm font-semibold text-neutral-700"
+            >
+              + 행 추가 (줄바꿈)
+            </button>
+          </div>
+
+          <div className="relative mt-10">
+            <InputWithClipboard value={PdfFileName} />
+          </div>
+
+          <button
+            type="button"
+            onClick={onPrint}
+            className="w-full cursor-pointer rounded-lg border-0 bg-blue-500 py-3 text-sm font-bold text-white"
+          >
+            🖨 PDF로 저장 / 인쇄
+          </button>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="mt-auto w-full cursor-pointer rounded-lg border-0 bg-neutral-900 py-3 text-sm font-bold text-white"
+          >
+            로그아웃
+          </button>
         </div>
       ) : (
         <div className="flex flex-col items-center gap-4 pt-8">

@@ -38,7 +38,7 @@ export default function InputWithClipboard({ value }: InputWithClipboardProps) {
       />
 
       <div
-        className="absolute right-2 cursor-pointer hover:text-gray-500 hover:bg-neutral-500/15 rounded-sm p-1"
+        className="absolute bg-white right-2 cursor-pointer hover:text-gray-500 hover:bg-neutral-500/15 rounded-sm p-1"
         onClick={handleCopyValue}
       >
         <Copy className="w-4 h-4" />
