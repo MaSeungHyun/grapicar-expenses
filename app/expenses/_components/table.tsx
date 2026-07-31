@@ -127,7 +127,7 @@ function generateHTML(rows: Row[], month: number) {
     .join("\n");
 
   const tableHTML = [
-    `<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%;max-width:600px">`,
+    `<table border="1" cellpadding="6" cellspacing="0" style="border-collapse:collapse;width:100%;">`,
     `  <thead>`,
     `    <tr style="background-color: #f0f0f0; font-size: 12px">`,
     `      <th style="text-align:center">no</th>`,
